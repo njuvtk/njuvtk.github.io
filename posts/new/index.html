@@ -52,7 +52,79 @@
 <span class="line"></span></code></pre>
 <h3 id="启动开发服务器">启动开发服务器</h3>
 <pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">pnpm</span><span style="color:#F1FA8C"> dev</span></span>
-<span class="line"></span></code></pre>  </article> <footer class="mt-5">  <div class="flex items-center gap-2">  <a title="下一篇: The Unbearable Lightness of Being" href="/posts/the-unbearable-lightness-of-being"> 下一篇: The Unbearable Lightness of Being <span class="inline-block vertical-mid i-mdi-chevron-double-right w-4 h-4"></span> </a> </div> </footer>  <div py-16><div id="tcomment"></div> <script src="https://cdn.staticfile.org/twikoo/1.6.32/twikoo.all.min.js"></script> <script>(function(){const config = {"envId":"your-env-id","el":"#tcomment","path":"/posts/new"};
+<span class="line"></span></code></pre>
+<h3 id="actions自动构建">Actions自动构建</h3>
+<p>在仓库中新建文件<code>.github\workflows\deploy.yml</code>，内容如下：</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8BE9FD">name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Deploy Astro to Cloud Server</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">on</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">  push</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">    branches</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#F1FA8C"> main</span><span style="color:#6272A4">  # 监控 main 分支的推送事件</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">jobs</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">  build</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">    runs-on</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ubuntu-latest</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">    steps</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#6272A4">      # Step 1: 检出代码</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#8BE9FD"> name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Checkout code</span></span>
+<span class="line"><span style="color:#8BE9FD">        uses</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> actions/checkout@v3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">      # Step 2: 设置 Node.js 环境</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#8BE9FD"> name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Setup Node</span></span>
+<span class="line"><span style="color:#8BE9FD">        uses</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> actions/setup-node@v4</span></span>
+<span class="line"><span style="color:#8BE9FD">        with</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">          node-version</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">20</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">          cache</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ${{ steps.detect-package-manager.outputs.manager }}</span></span>
+<span class="line"><span style="color:#8BE9FD">          cache-dependency-path</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ${{ env.BUILD_PATH }}/${{ steps.detect-package-manager.outputs.lockfile }}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">      # Step 3: 安装 pnpm</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#8BE9FD"> name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Install pnpm</span></span>
+<span class="line"><span style="color:#8BE9FD">        run</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> npm install -g pnpm</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">      # Step 4: 安装依赖并构建</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#8BE9FD"> name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Install dependencies and build</span></span>
+<span class="line"><span style="color:#8BE9FD">        run</span><span style="color:#FF79C6">:</span><span style="color:#FF79C6"> |</span></span>
+<span class="line"><span style="color:#F1FA8C">          pnpm install       # 安装依赖</span></span>
+<span class="line"><span style="color:#F1FA8C">          pnpm run build     # 构建 Astro 项目</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">      # Step 5: 推送到 GitHub Pages</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#8BE9FD"> name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Deploy to GitHub Pages</span></span>
+<span class="line"><span style="color:#8BE9FD">        uses</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> JamesIves/github-pages-deploy-action@v4.6.4</span></span>
+<span class="line"><span style="color:#8BE9FD">        with</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">          token</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ${{ secrets.TOKEN }}</span></span>
+<span class="line"><span style="color:#8BE9FD">          repository-name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> njuvtk/njuvtk.github.io</span></span>
+<span class="line"><span style="color:#8BE9FD">          branch</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> main</span></span>
+<span class="line"><span style="color:#8BE9FD">          folder</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> dist/</span></span>
+<span class="line"><span style="color:#8BE9FD">          commit-message</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">${{ github.event.head_commit.message }} Updated By Github Actions</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">      # Step 6: 将静态文件ftp上传</span></span>
+<span class="line"><span style="color:#FF79C6">      -</span><span style="color:#8BE9FD"> name</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Upload static files to FTP server</span></span>
+<span class="line"><span style="color:#8BE9FD">        uses</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> SamKirkland/FTP-Deploy-Action@4.3.1</span></span>
+<span class="line"><span style="color:#8BE9FD">        with</span><span style="color:#FF79C6">:</span></span>
+<span class="line"><span style="color:#8BE9FD">          server</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ${{ secrets.IP }}</span><span style="color:#6272A4">  # FTP 服务器地址</span></span>
+<span class="line"><span style="color:#8BE9FD">          username</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ${{ secrets.UN }}</span><span style="color:#6272A4">  # FTP 用户名</span></span>
+<span class="line"><span style="color:#8BE9FD">          password</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> ${{ secrets.PW }}</span><span style="color:#6272A4">  # FTP 密码</span></span>
+<span class="line"><span style="color:#8BE9FD">          local-dir</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> dist/</span><span style="color:#6272A4">  # 本地静态文件目录</span></span>
+<span class="line"><span style="color:#8BE9FD">          server-dir</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> /</span><span style="color:#6272A4">  # 远程服务器目录</span></span>
+<span class="line"></span></code></pre>
+<h3 id="配置actions-secrets">配置Actions secrets</h3>
+<ol>
+<li>进入仓库的Settings->Secrets->Actions，点击New repository secret。</li>
+<li>输入名称和值，点击Add secret。</li>
+<li>重复以上步骤，添加以下secrets：
+<ul>
+<li><code>TOKEN</code>：GitHub token，用于推送代码到GitHub Pages。
+在GitHub的settings->developer settings->personal access tokens->tokens(classic) -> generate new token (classic) -> 勾选repo，点击generate token。</li>
+<li><code>IP</code>：FTP服务器地址。</li>
+<li><code>UN</code>：FTP用户名。</li>
+<li><code>PW</code>：FTP密码。</li>
+</ul>
+</li>
+</ol>
+<h3 id="部署到github-pages">部署到GitHub Pages</h3>
+<p>发现一个问题：样式丢失。</p>  </article> <footer class="mt-5">  <div class="flex items-center gap-2">  <a title="下一篇: Markdown Example" href="/posts/markdown-example"> 下一篇: Markdown Example <span class="inline-block vertical-mid i-mdi-chevron-double-right w-4 h-4"></span> </a> </div> </footer>  <div py-16><div id="tcomment"></div> <script src="https://cdn.staticfile.org/twikoo/1.6.32/twikoo.all.min.js"></script> <script>(function(){const config = {"envId":"your-env-id","el":"#tcomment","path":"/posts/new"};
 
   twikoo.init(config)
 })();</script> </div>  </main> <footer class="transition-swup-footer py-7.5" lg="row-2-3 col-2-3" data-astro-cid-e5lvscu2> <p data-astro-cid-gcn2mc3v>© 2025 <a target="_blank" href="https://njuvtk.github.io">njuv</a></p><p data-astro-cid-gcn2mc3v>Theme <a target="_blank" href="https://github.com/njuvtk/astro-typography-njuv">Typography</a> by <a target="_blank" href="https://njuv.me">njuv</a></p><p data-astro-cid-gcn2mc3v>Proudly published with <a target="_blank" href="https://astro.build/">Astro</a></p> </footer> <script type="module">document.addEventListener("animationend",e,!1);function e(){document.documentElement.classList.remove("animation-prepared"),document.removeEventListener("animationend",e,!1)}</script>  </body> </html> <script type="module">function u(e){const t=document.createElement("pre");return t.style.width="1px",t.style.height="1px",t.style.position="fixed",t.style.top="5px",t.textContent=e,t}function a(e){if("clipboard"in navigator)return navigator.clipboard.writeText(e.textContent||"");const t=getSelection();if(t==null)return Promise.reject(new Error);t.removeAllRanges();const n=document.createRange();return n.selectNodeContents(e),t.addRange(n),document.execCommand("copy"),t.removeAllRanges(),Promise.resolve()}function i(e){if("clipboard"in navigator)return navigator.clipboard.writeText(e);const t=document.body;if(!t)return Promise.reject(new Error);const n=u(e);return t.appendChild(n),a(n),t.removeChild(n),Promise.resolve()}async function d(e){const t=e.getAttribute("for"),n=e.getAttribute("value");function o(){e.dispatchEvent(new CustomEvent("clipboard-copy",{bubbles:!0}))}if(e.getAttribute("aria-disabled")!=="true"){if(n)await i(n),o();else if(t){const r="getRootNode"in Element.prototype?e.getRootNode():e.ownerDocument;if(!(r instanceof Document||"ShadowRoot"in window&&r instanceof ShadowRoot))return;const c=r.getElementById(t);c&&(await p(c),o())}}}function p(e){return e instanceof HTMLInputElement||e instanceof HTMLTextAreaElement?i(e.value):e instanceof HTMLAnchorElement&&e.hasAttribute("href")?i(e.href):a(e)}function f(e){const t=e.currentTarget;t instanceof HTMLElement&&d(t)}function l(e){if(e.key===" "||e.key==="Enter"){const t=e.currentTarget;t instanceof HTMLElement&&(e.preventDefault(),d(t))}}function m(e){e.currentTarget.addEventListener("keydown",l)}function y(e){e.currentTarget.removeEventListener("keydown",l)}class h extends HTMLElement{static define(t="clipboard-copy",n=customElements){return n.define(t,this),this}constructor(){super(),this.addEventListener("click",f),this.addEventListener("focus",m),this.addEventListener("blur",y)}connectedCallback(){this.hasAttribute("tabindex")||this.setAttribute("tabindex","0"),this.hasAttribute("role")||this.setAttribute("role","button")}get value(){return this.getAttribute("value")||""}set value(t){this.setAttribute("value",t)}}const s=typeof globalThis<"u"?globalThis:window;try{s.ClipboardCopyElement=h.define()}catch(e){if(!(s.DOMException&&e instanceof DOMException&&e.name==="NotSupportedError")&&!(e instanceof ReferenceError))throw e}document.addEventListener("clipboard-copy",e=>{const n=e.target.querySelector(".icon");n.classList.replace("i-mdi-content-copy","i-mdi-check"),setTimeout(()=>{n.classList.replace("i-mdi-check","i-mdi-content-copy")},1500)});const b=Array.from(document.querySelectorAll("pre")),g="<div class='i-mdi-content-copy icon text-white'></div>";for(const e of b){const t=document.createElement("div");t.className="code-container";const n=document.createElement("clipboard-copy"),o=e.querySelector("code");n.value=o?.textContent??"",n.className="clipboard-copy",n.innerHTML=g,e.appendChild(n),e.parentNode?.insertBefore(t,e),t.appendChild(e)}</script> 
