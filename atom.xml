@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>Markdown 示例</title><link>https://njuvtk.github.io/posts/markdown-example/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/markdown-example/</guid><description>这是在 Astro 中编写 Markdown 内容时可使用的一些基本 Markdown 语法示例。</description><pubDate>Fri, 30 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>博客搭建</title><link>https://njuvtk.github.io/posts/new/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/new/</guid><description>搭建过程</description><pubDate>Thu, 29 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;第一篇文章&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: 标题
+pubDate: 发布时间
+upDate: 更新时间
+categories: [&quot;分类&quot;]
+description: &quot;简述&quot;
+draft: 草稿
+pin: 置顶
+slug: 链接
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;搭建过程&lt;/h2&gt;
+&lt;h3&gt;fork仓库&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/moeyua/astro-theme-typography&quot;&gt;活版印字&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;安装pnpm&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g pnpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;安装依赖&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;pnpm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;启动开发服务器&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;pnpm dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Actions自动构建&lt;/h3&gt;
+&lt;p&gt;在仓库中新建文件&lt;code&gt;.github\workflows\deploy.yml&lt;/code&gt;，内容如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name: Deploy Astro to Cloud Server
+
+on:
+  push:
+    branches:
+      - main  # 监控 main 分支的推送事件
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: 设置 Node.js 环境
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: &quot;20&quot;
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          cache-dependency-path: ${{ env.BUILD_PATH }}/${{ steps.detect-package-manager.outputs.lockfile }}
+
+      # Step 3: 安装 pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Step 4: 安装依赖并构建
+      - name: Install dependencies and build
+        run: |
+          pnpm install       # 安装依赖
+          pnpm run build     # 构建 Astro 项目
+
+      # Step 5: 推送到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        with:
+          token: ${{ secrets.TOKEN }}
+          repository-name: njuvtk/njuvtk.github.io
+          branch: main
+          folder: dist/
+          commit-message: &quot;${{ github.event.head_commit.message }} Updated By Github Actions&quot;
+
+      # Step 6: 将静态文件ftp上传
+      - name: Upload static files to FTP server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.1
+        with:
+          server: ${{ secrets.IP }}  # FTP 服务器地址
+          username: ${{ secrets.UN }}  # FTP 用户名
+          password: ${{ secrets.PW }}  # FTP 密码
+          local-dir: dist/  # 本地静态文件目录
+          server-dir: /  # 远程服务器目录
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;配置Actions secrets&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;进入仓库的Settings-&amp;gt;Secrets-&amp;gt;Actions，点击New repository secret。&lt;/li&gt;
+&lt;li&gt;输入名称和值，点击Add secret。&lt;/li&gt;
+&lt;li&gt;重复以上步骤，添加以下secrets：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TOKEN&lt;/code&gt;：GitHub token，用于推送代码到GitHub Pages。
+在GitHub的settings-&amp;gt;developer settings-&amp;gt;personal access tokens-&amp;gt;tokens(classic) -&amp;gt; generate new token (classic) -&amp;gt; 勾选repo，点击generate token。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IP&lt;/code&gt;：FTP服务器地址。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UN&lt;/code&gt;：FTP用户名。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PW&lt;/code&gt;：FTP密码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;部署到GitHub Pages&lt;/h3&gt;
+&lt;p&gt;通过action推送到GitHub pages仓库
+发现一个问题：样式丢失？
+一开始以为是推送的问题，没想到啊！
+通过询问Copilot问题得到解决。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;非常棒！你的排查结果完全正确：  
+如果没有 .nojekyll 文件，GitHub Pages 会用 Jekyll 处理，而 Jekyll 会默认忽略所有下划线开头的目录（如 _astro），导致样式、脚本等静态资源无法被访问，从而页面“完全无样式”。
+
+**解决办法：**  
+只需要在仓库根目录添加一个空的 .nojekyll 文件即可。
+
+建议你在每次部署 Astro、Next.js、Vite 等生成 _astro 或 _next 目录的静态站点到 GitHub Pages 时都包含这个文件。
+
+这样 GitHub Pages 就会正常托管所有静态资源，页面样式和交互也会全部恢复正常！
+
+如需自动化部署脚本或有其他 Pages 相关问题，欢迎随时提问。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;所以只需要在public文件夹下新建一个空文件.nojekyll就解决啦！&lt;code&gt;/public/.nojekyll&lt;/code&gt;&lt;/p&gt;
+</content:encoded><category>记录</category><author>njuv</author></item><item><title>Markdown 示例</title><link>https://njuvtk.github.io/posts/markdown-example/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/markdown-example/</guid><description>这是在 Astro 中编写 Markdown 内容时可使用的一些基本 Markdown 语法示例。</description><pubDate>Fri, 30 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.&lt;/p&gt;
 &lt;h2&gt;Headings&lt;/h2&gt;
 &lt;p&gt;The following HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; elements represent six levels of section headings. &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; is the highest section level while &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; is the lowest.&lt;/p&gt;
 &lt;h1&gt;H1&lt;/h1&gt;
@@ -174,100 +286,4 @@ $$&lt;/p&gt;
 \frac{d}{dx} \left( \int_{a}^{x} f(t) , dt \right) = f(x)
 $$&lt;/p&gt;
 &lt;p&gt;This formula represents the fundamental theorem of calculus in differential form.&lt;/p&gt;
-</content:encoded><category>示例</category><author>njuv</author></item><item><title>博客搭建</title><link>https://njuvtk.github.io/posts/new/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/new/</guid><description>搭建过程</description><pubDate>Tue, 01 Apr 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;第一篇文章&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;---
-title: 标题
-pubDate: 发布时间
-upDate: 更新时间
-categories: [&quot;分类&quot;]
-description: &quot;简述&quot;
-draft: 草稿
-pin: 置顶
-slug: 链接
----
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;搭建过程&lt;/h2&gt;
-&lt;h3&gt;fork仓库&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/moeyua/astro-theme-typography&quot;&gt;活版印字&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;安装pnpm&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;npm install -g pnpm
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;安装依赖&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;pnpm install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;启动开发服务器&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;pnpm dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Actions自动构建&lt;/h3&gt;
-&lt;p&gt;在仓库中新建文件&lt;code&gt;.github\workflows\deploy.yml&lt;/code&gt;，内容如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;name: Deploy Astro to Cloud Server
-
-on:
-  push:
-    branches:
-      - main  # 监控 main 分支的推送事件
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: 检出代码
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Step 2: 设置 Node.js 环境
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: &quot;20&quot;
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: ${{ env.BUILD_PATH }}/${{ steps.detect-package-manager.outputs.lockfile }}
-
-      # Step 3: 安装 pnpm
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      # Step 4: 安装依赖并构建
-      - name: Install dependencies and build
-        run: |
-          pnpm install       # 安装依赖
-          pnpm run build     # 构建 Astro 项目
-
-      # Step 5: 推送到 GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
-        with:
-          token: ${{ secrets.TOKEN }}
-          repository-name: njuvtk/njuvtk.github.io
-          branch: main
-          folder: dist/
-          commit-message: &quot;${{ github.event.head_commit.message }} Updated By Github Actions&quot;
-
-      # Step 6: 将静态文件ftp上传
-      - name: Upload static files to FTP server
-        uses: SamKirkland/FTP-Deploy-Action@4.3.1
-        with:
-          server: ${{ secrets.IP }}  # FTP 服务器地址
-          username: ${{ secrets.UN }}  # FTP 用户名
-          password: ${{ secrets.PW }}  # FTP 密码
-          local-dir: dist/  # 本地静态文件目录
-          server-dir: /  # 远程服务器目录
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;配置Actions secrets&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;进入仓库的Settings-&amp;gt;Secrets-&amp;gt;Actions，点击New repository secret。&lt;/li&gt;
-&lt;li&gt;输入名称和值，点击Add secret。&lt;/li&gt;
-&lt;li&gt;重复以上步骤，添加以下secrets：
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;TOKEN&lt;/code&gt;：GitHub token，用于推送代码到GitHub Pages。
-在GitHub的settings-&amp;gt;developer settings-&amp;gt;personal access tokens-&amp;gt;tokens(classic) -&amp;gt; generate new token (classic) -&amp;gt; 勾选repo，点击generate token。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;IP&lt;/code&gt;：FTP服务器地址。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;UN&lt;/code&gt;：FTP用户名。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PW&lt;/code&gt;：FTP密码。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3&gt;部署到GitHub Pages&lt;/h3&gt;
-&lt;p&gt;发现一个问题：样式丢失。&lt;/p&gt;
-</content:encoded><category>记录</category><author>njuv</author></item></channel></rss>
+</content:encoded><category>示例</category><author>njuv</author></item></channel></rss>
