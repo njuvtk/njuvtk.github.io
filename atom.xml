@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>博客搭建</title><link>https://njuvtk.github.io/posts/new/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/new/</guid><description>搭建过程</description><pubDate>Thu, 29 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;第一篇文章&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;---
+&lt;pre&gt;&lt;code&gt;```frontmatter
+---
 title: 标题
 pubDate: 发布时间
 modDate: 更新时间
@@ -10,11 +11,16 @@ pin: 置顶
 slug: 链接
 ---
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;搭建过程&lt;/h2&gt;
-&lt;h3&gt;fork仓库&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/moeyua/astro-theme-typography&quot;&gt;活版印字&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;安装pnpm&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;npm install -g pnpm
+&lt;pre&gt;&lt;code&gt;
+## 搭建过程
+### fork仓库
+
+[活版印字](https://github.com/moeyua/astro-theme-typography)
+
+### 安装pnpm
+
+```bash
+npm install -g pnpm
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;安装依赖&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;pnpm install
@@ -97,7 +103,8 @@ jobs:
 ，发现一个问题：样式丢失？
 一开始以为是推送的问题，没想到啊！
 通过询问Copilot，问题得到解决。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;非常棒！你的排查结果完全正确：  
+&lt;pre&gt;&lt;code&gt;```Copilot的回答
+非常棒！你的排查结果完全正确：  
 如果没有 .nojekyll 文件，GitHub Pages 会用 Jekyll 处理，而 Jekyll 会默认忽略所有下划线开头的目录（如 _astro），导致样式、脚本等静态资源无法被访问，从而页面“完全无样式”。
 
 解决办法：
@@ -109,7 +116,7 @@ jobs:
 
 如需自动化部署脚本或有其他 Pages 相关问题，欢迎随时提问。
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;所以只需要在public文件夹下新建一个空文件.nojekyll就解决啦！&lt;code&gt;/public/.nojekyll&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;所以只需要在public文件夹下新建一个空文件.nojekyll就解决啦！`/public/.nojekyll`&lt;/code&gt;&lt;/pre&gt;
 </content:encoded><category>记录</category><author>njuv</author></item><item><title>Markdown 示例</title><link>https://njuvtk.github.io/posts/markdown-example/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/markdown-example/</guid><description>这是在 Astro 中编写 Markdown 内容时可使用的一些基本 Markdown 语法示例。</description><pubDate>Fri, 30 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.&lt;/p&gt;
 &lt;h2&gt;Headings&lt;/h2&gt;
 &lt;p&gt;The following HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; elements represent six levels of section headings. &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; is the highest section level while &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; is the lowest.&lt;/p&gt;
