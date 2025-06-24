@@ -1,4 +1,123 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>博客搭建</title><link>https://njuvtk.github.io/posts/new/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/new/</guid><description>搭建过程</description><pubDate>Thu, 29 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;第一篇文章&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>nat小鸡web</title><link>https://njuvtk.github.io/posts/nat-xiao-ji-web/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/nat-xiao-ji-web/</guid><description>搭建过程</description><pubDate>Tue, 24 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;🌐 低内存 VPS 一键部署静态网站 + Cloudflare Tunnel 保活公开访问&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;利用 Caddy + Cloudflared Tunnel，极速部署 GitHub Page 或任意静态网页到你的低配 VPS（如 128MB NAT 机），实现公开可访问的高可用服务。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;✨ 项目特点&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;💡 &lt;strong&gt;全自动安装配置&lt;/strong&gt;：Caddy、Cloudflared、一键部署与启动。&lt;/li&gt;
+&lt;li&gt;🚀 &lt;strong&gt;低资源占用&lt;/strong&gt;：适用于 128MB 内存小机。&lt;/li&gt;
+&lt;li&gt;🔐 &lt;strong&gt;无需公网 IP 或端口映射&lt;/strong&gt;：通过 Cloudflare Tunnel 公开访问。&lt;/li&gt;
+&lt;li&gt;🔁 &lt;strong&gt;自动更新网页内容&lt;/strong&gt;：支持定时从 GitHub 拉取更新。&lt;/li&gt;
+&lt;li&gt;🧹 &lt;strong&gt;一键卸载&lt;/strong&gt;：干净清理，方便复用环境。&lt;/li&gt;
+&lt;li&gt;📦 &lt;strong&gt;支持菜单/分步骤部署&lt;/strong&gt;：适配不同需求。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;📦 使用方法（二选一）&lt;/h2&gt;
+&lt;h3&gt;1. 克隆项目&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/njuvtk/vpstool.git
+cd vpstool
+chmod +x web.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;2. 运行脚本&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;./web.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;或者 🚀 快速开始&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;建议使用 Debian 11+/Ubuntu 20.04+ 运行&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;curl -fsSL https://raw.githubusercontent.com/njuvtk/vpstool/main/web.sh | bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;你将看到如下菜单：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;🌐 静态站部署脚本菜单
+1. 安装依赖
+2. 安装 Caddy
+3. 配置 Caddy
+4. 克隆网页仓库 + 定时更新
+5. 安装 cloudflared 并配置 Tunnel
+6. 启动服务并设置开机自启
+7. 一键全自动部署
+8. 一键删除部署环境
+0. 退出
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;3. 推荐：使用“一键全自动部署”&lt;/h3&gt;
+&lt;p&gt;输入 &lt;code&gt;7&lt;/code&gt;，按照提示依次填写：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub 仓库地址（如 &lt;code&gt;https://github.com/xxx/xxx.github.io.git&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;主域名（如 &lt;code&gt;example.com&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;子域名前缀（如 &lt;code&gt;blog&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;Tunnel 名称（建议简短英文）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;系统将自动完成以下步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装依赖软件&lt;/li&gt;
+&lt;li&gt;安装并配置 Caddy，监听 80 端口，展示网页内容&lt;/li&gt;
+&lt;li&gt;克隆 GitHub 仓库到本地目录&lt;/li&gt;
+&lt;li&gt;创建 Cloudflare Tunnel 并绑定子域名&lt;/li&gt;
+&lt;li&gt;自动设置开机自启与定时网页更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;📂 网页存放目录&lt;/h2&gt;
+&lt;p&gt;默认网页克隆到：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/var/www/mysite
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;你可以将该目录绑定至 Caddy 或替换为其他路径。&lt;/p&gt;
+&lt;h2&gt;⏰ 网页定时自动更新&lt;/h2&gt;
+&lt;p&gt;已集成 &lt;code&gt;cron&lt;/code&gt; 任务，每 10 分钟执行一次 &lt;code&gt;git pull&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*/10 * * * * root cd /var/www/mysite &amp;amp;&amp;amp; git pull --quiet
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可手动修改 &lt;code&gt;/etc/cron.d/github-site-pull&lt;/code&gt; 自定义周期。&lt;/p&gt;
+&lt;h2&gt;🔐 使用 Cloudflare Tunnel 的优势&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;🚫 无需端口映射&lt;/li&gt;
+&lt;li&gt;✅ 支持 HTTPS 自动证书&lt;/li&gt;
+&lt;li&gt;🌍 快速全球访问（通过 Cloudflare 边缘网络）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;🧹 卸载部署环境&lt;/h2&gt;
+&lt;p&gt;输入菜单 &lt;code&gt;8&lt;/code&gt;，将自动执行以下操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;关闭并删除 Caddy 和 Cloudflared 服务&lt;/li&gt;
+&lt;li&gt;删除相关配置、网页、日志、systemd 文件&lt;/li&gt;
+&lt;li&gt;移除定时任务、清理 APT 软件包与缓存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;📜 日志输出&lt;/h2&gt;
+&lt;p&gt;所有操作日志写入：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/var/log/deploy-web.log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;💬 常见问题&lt;/h2&gt;
+&lt;h3&gt;1. &lt;code&gt;cloudflared&lt;/code&gt; 登录失败？&lt;/h3&gt;
+&lt;p&gt;请确保：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;已用浏览器访问并登录 Cloudflare 帐号&lt;/li&gt;
+&lt;li&gt;Tunnel 名称无重复&lt;/li&gt;
+&lt;li&gt;域名已添加至 Cloudflare 面板&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2. GitHub 仓库内容没变化？&lt;/h3&gt;
+&lt;p&gt;确认：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 仓库设置为 public&lt;/li&gt;
+&lt;li&gt;主分支为 &lt;code&gt;main&lt;/code&gt; 或 &lt;code&gt;master&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;脚本已定时更新并写入 cron 文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;🧪 未来计划&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;自动检查是否已有 tunnel、支持重复使用&lt;/li&gt;
+&lt;li&gt;支持绑定自定义 HTTPS 证书&lt;/li&gt;
+&lt;li&gt;支持非 GitHub 静态站部署&lt;/li&gt;
+&lt;li&gt;支持备份/还原配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;🧠 适用场景&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;无公网 IP、nat小内存 VPS 搭建网站&lt;/li&gt;
+&lt;li&gt;在线简历、Markdown 页面、博客托管&lt;/li&gt;
+&lt;li&gt;教学/测试用途快速部署 HTML 页面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;📎 示例部署地址&lt;/h2&gt;
+&lt;p&gt;你部署成功后，将能通过：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://www.njuv.pp.ua
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;访问你托管的网页（由 Cloudflare 免费加速和代理）。&lt;/p&gt;
+&lt;h2&gt;📌 项目地址&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/njuvtk/vpstool&quot;&gt;🔗 https://github.com/njuvtk/vpstool&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;欢迎 Star ⭐、Fork 🔀、PR 💬！&lt;/p&gt;
+</content:encoded><category>记录</category><author>njuv</author></item><item><title>博客搭建</title><link>https://njuvtk.github.io/posts/new/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/new/</guid><description>搭建过程</description><pubDate>Thu, 29 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;第一篇文章&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;```frontmatter
 ---
 title: 标题

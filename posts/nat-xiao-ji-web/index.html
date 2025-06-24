@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="zh-cn" class="animation-prepared" data-astro-cid-e5lvscu2> <head><title>nat小鸡web</title><meta charset="utf-8"><link rel="canonical" href="https://njuvtk.github.io/posts/nat-xiao-ji-web/"><meta name="description" content="搭建过程"><meta name="robots" content="index, follow"><meta property="og:title" content="nat小鸡web"><meta property="og:type" content="article"><meta property="og:image" content="https://njuvtk.github.io/placeholder.png"><meta property="og:url" content="https://njuvtk.github.io"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="alternate" type="application/rss+xml" title="南水亭" href="https://njuvtk.github.io/atom.xml"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.0.2"><meta name="twitter:image:src" content="https://njuvtk.github.io/placeholder.png"><meta name="twitter:image:alt" content="搭建过程"><meta name="twitter:creator" content><meta name="twitter:site" content><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="nat小鸡web"><meta name="twitter:description" content="搭建过程"><script>(function(){const theme = "system";
+
+  function updateTheme(theme) {
+    // Check if theme is system
+    if (theme === "system") {
+      // Check OS preference
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      document.documentElement.classList.toggle("dark", prefersDark);
+    } else {
+      // Set theme directly
+      document.documentElement.classList.toggle("dark", theme === "dark");
+    }
+  }
+
+  // Initial theme setup
+  updateTheme(theme);
+
+  // Listen for OS theme changes
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      if (theme === "system") {
+        document.documentElement.classList.toggle("dark", e.matches);
+      }
+    });
+})();</script><link rel="stylesheet" href="/_astro/_page_.BaZaayzC.css">
+<style>.tk-meta-input{background-color:#fff}.code-container{position:relative}.clipboard-copy{position:absolute;top:.5rem;right:.5rem;width:1.75rem;height:1.75rem;display:flex;justify-content:center;align-items:center;border-radius:.25rem}.clipboard-copy:hover{background-color:#30363d}
+[data-astro-image]{width:100%;height:auto;object-fit:var(--fit);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style><script type="module" src="/_astro/page.tCc9fVpf.js"></script></head> <body class="h-100vh max-w-1200px min-w-390px mx-a" p="7.5 lg:y-0 lg:x-20" lg="grid gap-x-6 cols-[3fr_1fr] rows-[1fr_9rem]" data-astro-cid-e5lvscu2> <header class="transition-swup-header flex flex-col gap-2.5" m="7.5 lg:x-0 lg:t-20 lg:b-4" lg="row-1-2 col-2-3 justify-between items-start" data-astro-cid-e5lvscu2> <hgroup lg="write-vertical-right items-start b-l-2px b-l-primary-solid text-left" flex="~ col gap-2.5" class="cursor-pointer text-center duration-800 ease-in-out"> <a class="not-underline-hover duration-800 ease-in-out" lg:p="x-2.5 b-12 hover:t-3.75 hover:b-8.75" hover:lg=" bg-primary color-background" href="/"> <h3 class="text-5 font-extrabold font-header">NjUvTk</h3> <h1 class="text-8 font-extrabold font-header">南水亭</h1> </a> </hgroup> <nav class="text-center font-bold" flex="~ col gap-4"> <ul lg="flex-col items-start text-4" class="text-3.5" flex="~ row gap-2 justify-center"> <li> <a class="" href="/"> 文章 </a> </li><li> <a class="" href="/archive"> 归档 </a> </li><li> <a class="" href="/categories"> 分类 </a> </li><li> <a class="" href="/about"> 关于 </a> </li><li> <a class="" href="/friends"> 友链 </a> </li> </ul> <ul flex="~ row gap-1 justify-center"> <li> <a href="https://github.com/njuvtk/astro-typography-njuv" target="_blank" title="github" class="not-underline-hover inline-flex items-center"> <span class="i-mdi-github w-6 h-6">github</span> </a> </li><li> <a href="/atom.xml" target="_blank" title="rss" class="not-underline-hover inline-flex items-center"> <span class="i-mdi-rss w-6 h-6">rss</span> </a> </li><li> <a href="https://github.com/njuvtk/astro-typography-njuv" target="_blank" title="twitter" class="not-underline-hover inline-flex items-center"> <span class="i-mdi-twitter w-6 h-6">twitter</span> </a> </li><li> <a href="https://github.com/njuvtk/astro-typography-njuv" target="_blank" title="mastodon" class="not-underline-hover inline-flex items-center"> <span class="i-mdi-mastodon w-6 h-6">mastodon</span> </a> </li> </ul> </nav> </header> <main class="transition-swup-main overflow-y-scroll scrollbar-hide outline-none" lg="row-1-3 col-1-2 py-20 " data-astro-cid-e5lvscu2>   <article class="prose"> <header flex="~ col gap-2"> <h1 class="post-title"> <a class="not-prose" href="/posts/nat-xiao-ji-web/">nat小鸡web</a> </h1> <div class="text-3.5"> <span>发布于</span> <time>2025-06-24</time> <a href="/categories/记录">
+# 记录 </a> </div> </header>  <h1 id="-低内存-vps-一键部署静态网站--cloudflare-tunnel-保活公开访问">🌐 低内存 VPS 一键部署静态网站 + Cloudflare Tunnel 保活公开访问</h1>
+<blockquote>
+<p>利用 Caddy + Cloudflared Tunnel，极速部署 GitHub Page 或任意静态网页到你的低配 VPS（如 128MB NAT 机），实现公开可访问的高可用服务。</p>
+</blockquote>
+<h2 id="-项目特点">✨ 项目特点</h2>
+<ul>
+<li>💡 <strong>全自动安装配置</strong>：Caddy、Cloudflared、一键部署与启动。</li>
+<li>🚀 <strong>低资源占用</strong>：适用于 128MB 内存小机。</li>
+<li>🔐 <strong>无需公网 IP 或端口映射</strong>：通过 Cloudflare Tunnel 公开访问。</li>
+<li>🔁 <strong>自动更新网页内容</strong>：支持定时从 GitHub 拉取更新。</li>
+<li>🧹 <strong>一键卸载</strong>：干净清理，方便复用环境。</li>
+<li>📦 <strong>支持菜单/分步骤部署</strong>：适配不同需求。</li>
+</ul>
+<h2 id="-使用方法二选一">📦 使用方法（二选一）</h2>
+<h3 id="1-克隆项目">1. 克隆项目</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">git</span><span style="color:#F1FA8C"> clone</span><span style="color:#F1FA8C"> https://github.com/njuvtk/vpstool.git</span></span>
+<span class="line"><span style="color:#8BE9FD">cd</span><span style="color:#F1FA8C"> vpstool</span></span>
+<span class="line"><span style="color:#50FA7B">chmod</span><span style="color:#F1FA8C"> +x</span><span style="color:#F1FA8C"> web.sh</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-运行脚本">2. 运行脚本</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">./web.sh</span></span>
+<span class="line"></span></code></pre>
+<h3 id="或者--快速开始">或者 🚀 快速开始</h3>
+<blockquote>
+<p>建议使用 Debian 11+/Ubuntu 20.04+ 运行</p>
+</blockquote>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -fsSL</span><span style="color:#F1FA8C"> https://raw.githubusercontent.com/njuvtk/vpstool/main/web.sh</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> bash</span></span>
+<span class="line"></span></code></pre>
+<p>你将看到如下菜单：</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>🌐 静态站部署脚本菜单</span></span>
+<span class="line"><span>1. 安装依赖</span></span>
+<span class="line"><span>2. 安装 Caddy</span></span>
+<span class="line"><span>3. 配置 Caddy</span></span>
+<span class="line"><span>4. 克隆网页仓库 + 定时更新</span></span>
+<span class="line"><span>5. 安装 cloudflared 并配置 Tunnel</span></span>
+<span class="line"><span>6. 启动服务并设置开机自启</span></span>
+<span class="line"><span>7. 一键全自动部署</span></span>
+<span class="line"><span>8. 一键删除部署环境</span></span>
+<span class="line"><span>0. 退出</span></span>
+<span class="line"><span></span></span></code></pre>
+<h3 id="3-推荐使用一键全自动部署">3. 推荐：使用“一键全自动部署”</h3>
+<p>输入 <code>7</code>，按照提示依次填写：</p>
+<ul>
+<li>GitHub 仓库地址（如 <code>https://github.com/xxx/xxx.github.io.git</code>）</li>
+<li>主域名（如 <code>example.com</code>）</li>
+<li>子域名前缀（如 <code>blog</code>）</li>
+<li>Tunnel 名称（建议简短英文）</li>
+</ul>
+<p>系统将自动完成以下步骤：</p>
+<ul>
+<li>安装依赖软件</li>
+<li>安装并配置 Caddy，监听 80 端口，展示网页内容</li>
+<li>克隆 GitHub 仓库到本地目录</li>
+<li>创建 Cloudflare Tunnel 并绑定子域名</li>
+<li>自动设置开机自启与定时网页更新</li>
+</ul>
+<h2 id="-网页存放目录">📂 网页存放目录</h2>
+<p>默认网页克隆到：</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/var/www/mysite</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>你可以将该目录绑定至 Caddy 或替换为其他路径。</p>
+<h2 id="-网页定时自动更新">⏰ 网页定时自动更新</h2>
+<p>已集成 <code>cron</code> 任务，每 10 分钟执行一次 <code>git pull</code>：</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>*/10 * * * * root cd /var/www/mysite &#x26;&#x26; git pull --quiet</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>可手动修改 <code>/etc/cron.d/github-site-pull</code> 自定义周期。</p>
+<h2 id="-使用-cloudflare-tunnel-的优势">🔐 使用 Cloudflare Tunnel 的优势</h2>
+<ul>
+<li>🚫 无需端口映射</li>
+<li>✅ 支持 HTTPS 自动证书</li>
+<li>🌍 快速全球访问（通过 Cloudflare 边缘网络）</li>
+</ul>
+<h2 id="-卸载部署环境">🧹 卸载部署环境</h2>
+<p>输入菜单 <code>8</code>，将自动执行以下操作：</p>
+<ul>
+<li>关闭并删除 Caddy 和 Cloudflared 服务</li>
+<li>删除相关配置、网页、日志、systemd 文件</li>
+<li>移除定时任务、清理 APT 软件包与缓存</li>
+</ul>
+<h2 id="-日志输出">📜 日志输出</h2>
+<p>所有操作日志写入：</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/var/log/deploy-web.log</span></span>
+<span class="line"><span></span></span></code></pre>
+<h2 id="-常见问题">💬 常见问题</h2>
+<h3 id="1-cloudflared-登录失败">1. <code>cloudflared</code> 登录失败？</h3>
+<p>请确保：</p>
+<ul>
+<li>已用浏览器访问并登录 Cloudflare 帐号</li>
+<li>Tunnel 名称无重复</li>
+<li>域名已添加至 Cloudflare 面板</li>
+</ul>
+<h3 id="2-github-仓库内容没变化">2. GitHub 仓库内容没变化？</h3>
+<p>确认：</p>
+<ul>
+<li>Git 仓库设置为 public</li>
+<li>主分支为 <code>main</code> 或 <code>master</code></li>
+<li>脚本已定时更新并写入 cron 文件</li>
+</ul>
+<h2 id="-未来计划">🧪 未来计划</h2>
+<ul>
+<li>自动检查是否已有 tunnel、支持重复使用</li>
+<li>支持绑定自定义 HTTPS 证书</li>
+<li>支持非 GitHub 静态站部署</li>
+<li>支持备份/还原配置</li>
+</ul>
+<h2 id="-适用场景">🧠 适用场景</h2>
+<ul>
+<li>无公网 IP、nat小内存 VPS 搭建网站</li>
+<li>在线简历、Markdown 页面、博客托管</li>
+<li>教学/测试用途快速部署 HTML 页面</li>
+</ul>
+<h2 id="-示例部署地址">📎 示例部署地址</h2>
+<p>你部署成功后，将能通过：</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>https://www.njuv.pp.ua</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>访问你托管的网页（由 Cloudflare 免费加速和代理）。</p>
+<h2 id="-项目地址">📌 项目地址</h2>
+<p><a href="https://github.com/njuvtk/vpstool">🔗 https://github.com/njuvtk/vpstool</a></p>
+<p>欢迎 Star ⭐、Fork 🔀、PR 💬！</p>  </article> <footer class="mt-5">  <div class="flex items-center gap-2">  <a title="下一篇: 博客搭建" href="/posts/new"> 下一篇: 博客搭建 <span class="inline-block vertical-mid i-mdi-chevron-double-right w-4 h-4"></span> </a> </div> </footer>  <div py-16><div id="tcomment"></div> <script src="https://cdn.staticfile.org/twikoo/1.6.32/twikoo.all.min.js"></script> <script>(function(){const config = {"envId":"your-env-id","el":"#tcomment","path":"/posts/nat-xiao-ji-web"};
+
+  twikoo.init(config)
+})();</script> </div>  </main> <footer class="transition-swup-footer py-7.5" lg="row-2-3 col-2-3" data-astro-cid-e5lvscu2> <p data-astro-cid-gcn2mc3v>© 2025 <a target="_blank" href="https://njuvtk.github.io">njuv</a></p><p data-astro-cid-gcn2mc3v>Theme <a target="_blank" href="https://github.com/njuvtk/astro-typography-njuv">Typography</a> by <a target="_blank" href="https://njuv.me">njuv</a></p><p data-astro-cid-gcn2mc3v>Proudly published with <a target="_blank" href="https://astro.build/">Astro</a></p> </footer> <script type="module">document.addEventListener("animationend",e,!1);function e(){document.documentElement.classList.remove("animation-prepared"),document.removeEventListener("animationend",e,!1)}</script>  </body> </html> <script type="module">function u(e){const t=document.createElement("pre");return t.style.width="1px",t.style.height="1px",t.style.position="fixed",t.style.top="5px",t.textContent=e,t}function a(e){if("clipboard"in navigator)return navigator.clipboard.writeText(e.textContent||"");const t=getSelection();if(t==null)return Promise.reject(new Error);t.removeAllRanges();const n=document.createRange();return n.selectNodeContents(e),t.addRange(n),document.execCommand("copy"),t.removeAllRanges(),Promise.resolve()}function i(e){if("clipboard"in navigator)return navigator.clipboard.writeText(e);const t=document.body;if(!t)return Promise.reject(new Error);const n=u(e);return t.appendChild(n),a(n),t.removeChild(n),Promise.resolve()}async function d(e){const t=e.getAttribute("for"),n=e.getAttribute("value");function o(){e.dispatchEvent(new CustomEvent("clipboard-copy",{bubbles:!0}))}if(e.getAttribute("aria-disabled")!=="true"){if(n)await i(n),o();else if(t){const r="getRootNode"in Element.prototype?e.getRootNode():e.ownerDocument;if(!(r instanceof Document||"ShadowRoot"in window&&r instanceof ShadowRoot))return;const c=r.getElementById(t);c&&(await p(c),o())}}}function p(e){return e instanceof HTMLInputElement||e instanceof HTMLTextAreaElement?i(e.value):e instanceof HTMLAnchorElement&&e.hasAttribute("href")?i(e.href):a(e)}function f(e){const t=e.currentTarget;t instanceof HTMLElement&&d(t)}function l(e){if(e.key===" "||e.key==="Enter"){const t=e.currentTarget;t instanceof HTMLElement&&(e.preventDefault(),d(t))}}function m(e){e.currentTarget.addEventListener("keydown",l)}function y(e){e.currentTarget.removeEventListener("keydown",l)}class h extends HTMLElement{static define(t="clipboard-copy",n=customElements){return n.define(t,this),this}constructor(){super(),this.addEventListener("click",f),this.addEventListener("focus",m),this.addEventListener("blur",y)}connectedCallback(){this.hasAttribute("tabindex")||this.setAttribute("tabindex","0"),this.hasAttribute("role")||this.setAttribute("role","button")}get value(){return this.getAttribute("value")||""}set value(t){this.setAttribute("value",t)}}const s=typeof globalThis<"u"?globalThis:window;try{s.ClipboardCopyElement=h.define()}catch(e){if(!(s.DOMException&&e instanceof DOMException&&e.name==="NotSupportedError")&&!(e instanceof ReferenceError))throw e}document.addEventListener("clipboard-copy",e=>{const n=e.target.querySelector(".icon");n.classList.replace("i-mdi-content-copy","i-mdi-check"),setTimeout(()=>{n.classList.replace("i-mdi-check","i-mdi-content-copy")},1500)});const b=Array.from(document.querySelectorAll("pre")),g="<div class='i-mdi-content-copy icon text-white'></div>";for(const e of b){const t=document.createElement("div");t.className="code-container";const n=document.createElement("clipboard-copy"),o=e.querySelector("code");n.value=o?.textContent??"",n.className="clipboard-copy",n.innerHTML=g,e.appendChild(n),e.parentNode?.insertBefore(t,e),t.appendChild(e)}</script> 
