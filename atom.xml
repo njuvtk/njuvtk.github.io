@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>nat小鸡web</title><link>https://njuvtk.github.io/posts/nat-xiao-ji-web/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/nat-xiao-ji-web/</guid><description>搭建过程</description><pubDate>Tue, 24 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;🌐 低内存 VPS 一键部署静态网站 + Cloudflare Tunnel 保活公开访问&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>南水亭</title><description>开心每一天</description><link>https://njuvtk.github.io/</link><item><title>哪吒面板nat小鸡</title><link>https://njuvtk.github.io/posts/nezha-nat-xiao-ji/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/nezha-nat-xiao-ji/</guid><description>搭建过程</description><pubDate>Wed, 13 Aug 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;背景&lt;/h1&gt;
+&lt;p&gt;法国nat小鸡
+CPU 1vCore
+内存 512MiB
+磁盘 5GiB SSD&lt;/p&gt;
+&lt;p&gt;域名一个（可选）&lt;/p&gt;
+&lt;h1&gt;安装哪吒面板[https://nezha.wiki/guide/dashboard.html]&lt;/h1&gt;
+&lt;h2&gt;安装脚本&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;curl -L https://raw.githubusercontent.com/nezhahq/scripts/refs/heads/main/install.sh -o nezha.sh &amp;amp;&amp;amp; chmod +x nezha.sh &amp;amp;&amp;amp; sudo ./nezha.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;https://xsx.xx.kg/file/PmS0IcwQ.png&quot; alt=&quot;示例图&quot; /&gt;&lt;/p&gt;
+&lt;h1&gt;安装完成后，访问面板地址&lt;/h1&gt;
+&lt;pre&gt;&lt;code&gt;http://&amp;lt;your-server-ip&amp;gt;:设置的端口
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1&gt;想域名访问？！&lt;/h1&gt;
+&lt;h1&gt;安装CloudFlare Tunnel&lt;/h1&gt;
+&lt;h2&gt;创建Tunnel&lt;/h2&gt;
+&lt;p&gt;使用CloudFlare账号登入https://one.dash.cloudflare.com，然后在左侧边栏找到网络–&amp;gt;Tunnels（Networks -&amp;gt; Tunnels）.&lt;/p&gt;
+&lt;p&gt;点击创建隧道（Create a tunnel）以创建一个新的CloudFlare Tunnel.&lt;/p&gt;
+&lt;p&gt;选择隧道类型为Cloudflared，点击选择Cloudflared进入下一步，为隧道命名，你可以任意填写隧道名称，为了后面的区分，我建议你填一个具有区分性的名字，如：Nezha等，然后点击保存隧道（Save tunnel）即可.&lt;/p&gt;
+&lt;p&gt;选择环境，复制命令并在终端中运行，以安装Cloudflare Tunnel.&lt;/p&gt;
+&lt;p&gt;添加公共主机名
+子域 (随便)
+域 (选一个)
+类型 (HTTP)
+URL (localhost:设置的端口)&lt;/p&gt;
+&lt;h1&gt;完成，访问域名即可打开哪吒面板&lt;/h1&gt;
+</content:encoded><category>记录</category><author>njuv</author></item><item><title>nat小鸡web</title><link>https://njuvtk.github.io/posts/nat-xiao-ji-web/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/nat-xiao-ji-web/</guid><description>搭建过程</description><pubDate>Tue, 24 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;🌐 低内存 VPS 一键部署静态网站 + Cloudflare Tunnel 保活公开访问&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;利用 Caddy + Cloudflared Tunnel，极速部署 GitHub Page 或任意静态网页到你的低配 VPS（如 128MB NAT 机），实现公开可访问的高可用服务。&lt;/p&gt;
 &lt;/blockquote&gt;
