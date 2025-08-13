@@ -25,7 +25,7 @@ CPU 1vCore
 类型 (HTTP)
 URL (localhost:设置的端口)&lt;/p&gt;
 &lt;h1&gt;完成，访问域名即可打开哪吒面板&lt;/h1&gt;
-</content:encoded><category>记录</category><author>njuv</author></item><item><title>nat小鸡web</title><link>https://njuvtk.github.io/posts/nat-xiao-ji-web/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/nat-xiao-ji-web/</guid><description>搭建过程</description><pubDate>Tue, 24 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;🌐 低内存 VPS 一键部署静态网站 + Cloudflare Tunnel 保活公开访问&lt;/h1&gt;
+</content:encoded><category>记录</category><author>njuv</author></item><item><title>web页面nat小鸡</title><link>https://njuvtk.github.io/posts/web-nat-xiao-ji/</link><guid isPermaLink="true">https://njuvtk.github.io/posts/web-nat-xiao-ji/</guid><description>搭建过程</description><pubDate>Tue, 24 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;🌐 低内存 VPS 一键部署静态网站 + Cloudflare Tunnel 保活公开访问&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;利用 Caddy + Cloudflared Tunnel，极速部署 GitHub Page 或任意静态网页到你的低配 VPS（如 128MB NAT 机），实现公开可访问的高可用服务。&lt;/p&gt;
 &lt;/blockquote&gt;
